@@ -1,4 +1,4 @@
-package com.template.schema
+package schema
 
 import net.corda.core.schemas.MappedSchema
 import net.corda.core.serialization.CordaSerializable

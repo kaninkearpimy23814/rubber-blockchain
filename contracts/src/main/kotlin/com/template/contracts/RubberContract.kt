@@ -24,7 +24,7 @@ class RubberContract : Contract {
         when (command.value) {
             is Commands.Create -> verifyCreate (tx, setOfSigners)
             is Commands.Update -> verifyUpdate(tx, setOfSigners)
-            is Commands.Complete -> verifyComplete(tx, setOfSigners)
+//            is Commands.Complete -> verifyComplete(tx, setOfSigners)
             else -> throw IllegalArgumentException("Unrecognised command.")
         }
     }
@@ -58,17 +58,17 @@ class RubberContract : Contract {
         "The price must greater than 0." using (out.price > 0)
     }
 
-    private fun verifyComplete (tx: LedgerTransaction, signers: Set<PublicKey>) = requireThat {
-        "Must have inputs consumed when updating." using (tx.inputs.isNotEmpty())
-        "Must have outputs should be produced when updating." using (tx.outputs.isNotEmpty())
-        "Only one IOUState input state2 should be updated." using (tx.inputsOfType<RubberState>().size == 1)
-        "Only one IOUState output state2 should be updated." using (tx.outputsOfType<RubberState>().size == 1)
-        val input = tx.inputsOfType<RubberState>().single()
-        val out = tx.outputsOfType<RubberState>().single()
-        "The source and the destination cannot be same entity." using (out.source != out.destination)
-        val allSigners = (input.participants.map { it.owningKey } + out.participants.map { it.owningKey }).toSet()
-        "All of the participants must be signers." using (signers.containsAll(allSigners))
-
-        "Only isComplete flag can changed." using (out == input.copy(isComplete = out.isComplete))
-    }
+//    private fun verifyComplete (tx: LedgerTransaction, signers: Set<PublicKey>) = requireThat {
+//        "Must have inputs consumed when updating." using (tx.inputs.isNotEmpty())
+//        "Must have outputs should be produced when updating." using (tx.outputs.isNotEmpty())
+//        "Only one IOUState input state2 should be updated." using (tx.inputsOfType<RubberState>().size == 1)
+//        "Only one IOUState output state2 should be updated." using (tx.outputsOfType<RubberState>().size == 1)
+//        val input = tx.inputsOfType<RubberState>().single()
+//        val out = tx.outputsOfType<RubberState>().single()
+//        "The source and the destination cannot be same entity." using (out.source != out.destination)
+//        val allSigners = (input.participants.map { it.owningKey } + out.participants.map { it.owningKey }).toSet()
+//        "All of the participants must be signers." using (signers.containsAll(allSigners))
+//
+//        "Only isComplete flag can changed." using (out == input.copy(isComplete = out.isComplete))
+//    }
 }
