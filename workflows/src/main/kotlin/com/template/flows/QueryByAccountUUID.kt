@@ -4,7 +4,7 @@ import net.corda.core.flows.*
 import co.paralleluniverse.fibers.Suspendable
 import com.r3.corda.lib.accounts.workflows.accountService
 import com.template.states.InternalMessageState
-import com.template.states.TemplateState
+import com.template.states.RubberState
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.StartableByRPC
 import net.corda.core.node.services.vault.QueryCriteria
@@ -30,7 +30,7 @@ class ViewInboxByAccount(
         ).states.map { "\n" + "Internal Message: " + it.state.data.task }
 
         val invoices = serviceHub.vaultService.queryBy(
-                contractStateType = TemplateState::class.java,
+                contractStateType = RubberState::class.java,
                 criteria = criteria
         ).states.map { "\n" +"Invoice State : " +it.state.data}
 
